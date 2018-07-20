@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+*.xml
+*.xml
+*.xml
+.idea/PixelFight.iml
+.idea/workspace.xml
+.idea/deployment.xml
+.idea/misc.xml
