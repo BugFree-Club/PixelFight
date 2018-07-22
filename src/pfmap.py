@@ -3,7 +3,7 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:08'
 
-from grid import *
+from pfgrid import *
 
 
 class PixelMap(object):
