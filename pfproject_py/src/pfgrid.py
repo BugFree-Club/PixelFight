@@ -4,7 +4,7 @@ __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:01'
 
 
-class Grid(object):
+class PixelGrid(object):
 
     def __init__(self, _t, _a, _v):
         self.__type = _t
