@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Author : Zhiquan Wang
+// Date : 2018/07/23
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
