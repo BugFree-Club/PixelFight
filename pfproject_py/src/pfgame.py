@@ -21,7 +21,7 @@ class PixelFightGame(object):
     def load_game_rule(self):
         pass
 
-    def gen_player_id(self, _socket_info):
+    def gen_player_id(self, _uname,_socket_info):
         pass
 
     def attack_grid(self, _x, _y, _player_info):
