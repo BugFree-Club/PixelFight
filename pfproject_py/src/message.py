@@ -7,12 +7,20 @@ import json
 
 
 class LoginRequest(object):
-    def __init__(self, *, _u_name, json_info=None):
+    def __init__(self, *, uname=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.login_request
-            self.__usr_name = _u_name
+            self.__usr_name = uname
         else:
             self.parse_json(json_info)
+
+    @property
+    def usr_name(self):
+        return self.__usr_name
+
+    @usr_name.setter
+    def usr_name(self, _uname):
+        self.__usr_name = _uname
 
     def __dict__(self):
         return {JsonAttribute.msg_type: self.__msg_type, JsonAttribute.lr_usr_name: self.__usr_name}
@@ -27,12 +35,20 @@ class LoginRequest(object):
 
 
 class LoginReply(object):
-    def __init__(self, *, _id, json_info=None):
+    def __init__(self, *, id=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.login_request
-            self.__login_id = _id
+            self.__login_id = id
         else:
             self.parse_json(json_info)
+
+    @property
+    def login_id(self):
+        return self.__login_id
+
+    @login_id.setter
+    def login_id(self, _id):
+        self.__login_id = _id
 
     def __dict__(self):
         return {JsonAttribute.msg_type: self.__msg_type, JsonAttribute.lre_login_id: self.__login_id}
@@ -47,12 +63,12 @@ class LoginReply(object):
 
 
 class PlayerCommand(object):
-    def __init__(self, *, _x, _y, json_info=None):
+    def __init__(self, *, x=None, y=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.player_command
             self.__player_id = None
-            self.__target_x = _x
-            self.__target_y = _y
+            self.__target_x = x
+            self.__target_y = y
         else:
             self.parse_json(json_info)
 
@@ -73,11 +89,11 @@ class PlayerCommand(object):
 
 
 class GameInfo(object):
-    def __init__(self, _m, _r, json_info=None):
+    def __init__(self, *, map=None, round=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
-            self.__map_info = _m
-            self.__round = _r
+            self.__map_info = map
+            self.__round = round
         else:
             self.parse_json(json_info)
 

@@ -7,18 +7,17 @@ from pfmap import *
 from pfgame import *
 from message import *
 from networkservice import *
-import message
 
 
 class PixelFightSystem(object):
-
-    def __init__(self):
-        self.__networkSev = NetworkService('127.0.0.1', '6787')
+    def __init__(self, *, ip=None, port=None):
+        self.__networkSev = NetworkService(ip, port)
         self.__game = PixelFightGame()
 
     def launch_server(self):
         try:
             self.__networkSev.listen()
+            print('Start Listening')
             while True:
                 client_socket_info = self.__networkSev.socket.accept()
                 address_thread = threading.Thread(target=self.__address_msg, args=(client_socket_info,))
@@ -36,14 +35,15 @@ class PixelFightSystem(object):
                     break
                 client_msg = data.decode('utf-8')
                 server_reply = self.__address_request(client_msg, _c_socket_info)
-                client_socket.sendall(server_reply.get_message().encode('utf-8'))
+                client_socket.sendall(server_reply.dump_json().encode('utf-8'))
             client_socket.close()
         except Exception:
-            print('Class:ServerNetwork:address_request')
+            print('Class:PixelFightSystem:address_msg')
             client_socket.close()
 
     def __address_request(self, _msg, _s):
-       tmp_type = get_msg_type(_msg)
-       if tmp_type == MessageType.login_request:
-
-
+        tmp_type = get_msg_type(_msg)
+        if tmp_type == MessageType.login_request:
+            tmp_obj = LoginRequest(json_info=_msg)
+            tmp_id = self.__game.gen_player_id(tmp_obj.usr_name, _s)
+            return LoginReply(id=tmp_id)
