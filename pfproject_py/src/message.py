@@ -53,7 +53,7 @@ class GameInfo(object):
                 JsonAttribute.gi_round: self.__round}
 
     def dump_json(self):
-        return json.dumps(self.__dict__())
+        return json.dump(self.__dict__())
 
     def parse_json(self, _s):
         tmp_dic = json.loads(_s)
@@ -73,13 +73,21 @@ class MessageType(object):
 
 
 class JsonAttribute(object):
-    msg_type = 'MsgType'
+    msg_type = 'msg_type'
 
     # PlayCommand 数据成员
-    pc_player_id = 'PlayerID'
-    pc_target_x = u'TargetX'
-    pc_target_y = u'TargetY'
+    pc_player_id = u'player_id'
+    pc_target_x = u'target_x'
+    pc_target_y = u'target_y'
 
     # GameInfo
-    gi_map_info = u'MapInfo'
-    gi_round = u'Round'
+    gi_map_info = u'map_info'
+    gi_round = u'round'
+
+    # pfRule
+    pfr_max_round = u'max_round'
+    pfr_map_height = u'map_height'
+    pfr_map_width = u'map_width'
+    pfr_player_num = u'player_num'
+    pfr_empty_grid_time = u'empty_grid_time'
+    pfr_player_grid_time = u'player_grid_time'
