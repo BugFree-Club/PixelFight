@@ -9,6 +9,8 @@ from message import JsonAttribute
 
 
 class PixelFightRule(object):
+    def __init__(self):
+        pass
 
     def __init__(self, _mr, _mh, _mw, _pn, _egt, _pgr):
         self.__max_round = _mr

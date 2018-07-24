@@ -22,18 +22,18 @@ class NetworkService(object):
     def listen(self):
         self.__socket.listen(self.__max_connect_num)
 
-    def __address_request(self, _c_socket_info):
-        client_socket = _c_socket_info[0]
-        try:
-            # Receive Client Message
-            while True:
-                data = client_socket.recv(2048)
-                if not data:
-                    break
-                client_msg = data.decode('utf-8')
-                server_reply = self.__ref_ser_manager.address_request(client_msg, _c_socket_info)
-                client_socket.sendall(server_reply.get_message().encode('utf-8'))
-            client_socket.close()
-        except Exception:
-            print('Class:ServerNetwork:address_request')
-            client_socket.close()
+    # def __address_request(self, _c_socket_info):
+    #     client_socket = _c_socket_info[0]
+    #     try:
+    #         # Receive Client Message
+    #         while True:
+    #             data = client_socket.recv(2048)
+    #             if not data:
+    #                 break
+    #             client_msg = data.decode('utf-8')
+    #             server_reply = self.__ref_ser_manager.address_request(client_msg, _c_socket_info)
+    #             client_socket.sendall(server_reply.get_message().encode('utf-8'))
+    #         client_socket.close()
+    #     except Exception:
+    #         print('Class:ServerNetwork:address_request')
+    #         client_socket.close()
