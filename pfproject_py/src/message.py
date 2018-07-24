@@ -7,9 +7,13 @@ import json
 
 
 class LoginRequest(object):
-    def __init__(self, _u_name):
-        self.__msg_type = MessageType.login_request
-        self.__usr_name = _u_name
+    def __init__(self,*, _u_name,json_info = None):
+        if json_info is None:
+            self.__msg_type = MessageType.login_request
+            self.__usr_name = _u_name
+        else:
+            tmp_dic = json.loads(json_info)
+            self.__msg_type = tmp_dic[JsonAttribute.]
 
 
 class PlayerCommand(object):
@@ -20,7 +24,8 @@ class PlayerCommand(object):
         self.__target_y = _y
 
     def __dict__(self):
-        return {JsonAttribute.msg_type: self.__msg_type, JsonAttribute.pc_player_id: self.__player_id,
+        return {JsonAttribute.msg_type: self.__msg_type,
+                JsonAttribute.pc_player_id: self.__player_id,
                 JsonAttribute.pc_target_x: self.__target_x,
                 JsonAttribute.pc_target_y: self.__target_y}
 
@@ -49,11 +54,12 @@ class GameInfo(object):
         self.__round = _r
 
     def __dict__(self):
-        return {JsonAttribute.msg_type: self.__msg_type, JsonAttribute.gi_map_info: self.__map_info,
+        return {JsonAttribute.msg_type: self.__msg_type,
+                JsonAttribute.gi_map_info: self.__map_info,
                 JsonAttribute.gi_round: self.__round}
 
     def dump_json(self):
-        return json.dump(self.__dict__())
+        return json.dumps(self.__dict__())
 
     def parse_json(self, _s):
         tmp_dic = json.loads(_s)
@@ -74,8 +80,13 @@ class MessageType(object):
 
 class JsonAttribute(object):
     msg_type = 'msg_type'
+    # LoginRequest
+    lr_usr_name = u'usr_name'
 
-    # PlayCommand 数据成员
+    # LoginReply
+    lre_loginid = u'login_id'
+
+    # PlayCommand 
     pc_player_id = u'player_id'
     pc_target_x = u'target_x'
     pc_target_y = u'target_y'

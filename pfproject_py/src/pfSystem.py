@@ -44,5 +44,6 @@ class PixelFightSystem(object):
 
     def __address_request(self, _msg, _s):
        tmp_type = get_msg_type(_msg)
-       if tmp_type == MessageType.game_info:
+       if tmp_type == MessageType.login_request:
+
 
