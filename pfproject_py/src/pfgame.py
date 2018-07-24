@@ -13,15 +13,16 @@ class PixelFightGame(object):
         self.__game_rule = PixelFightRule()
         self.__round_counter = 0
         self.__player_info_list = []
-        self.__pixel_map = PixelMap(self.__game_rule.map_height,self.__game_rule.map_width)
+        self.__pixel_map = PixelMap(self.__game_rule.map_height, self.__game_rule.map_width)
 
     def launch_game(self):
         pass
 
     def load_game_rule(self):
-
-    def gen_player_id(self,_socket_info):
-
-    def attack_grid(self,_x,_y,_player_info):
         pass
 
+    def gen_player_id(self, _socket_info):
+        pass
+
+    def attack_grid(self, _x, _y, _player_info):
+        pass
