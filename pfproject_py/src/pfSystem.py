@@ -3,10 +3,9 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:28'
 
-from pfmap import *
-from pfgame import *
-from message import *
 from networkservice import *
+from pfgame import *
+from pfmessage import *
 
 
 class PixelFightSystem(object):
@@ -34,11 +33,13 @@ class PixelFightSystem(object):
                 if not data:
                     break
                 client_msg = data.decode('utf-8')
-                server_reply = self.__address_request(client_msg, _c_socket_info)
-                client_socket.sendall(server_reply.dump_json().encode('utf-8'))
+                peer_name = client_socket.getpeername()
+                server_reply = self.__address_request(client_msg, peer_name)
+                print(u'Client Message : ' + client_msg)
+                client_socket.sendall(server_reply.encode('utf-8'))
             client_socket.close()
         except Exception:
-            print('Class:PixelFightSystem:address_msg')
+            print('Error:Class:PixelFightSystem:address_msg')
             client_socket.close()
 
     def __address_request(self, _msg, _s):
@@ -46,4 +47,7 @@ class PixelFightSystem(object):
         if tmp_type == MessageType.login_request:
             tmp_obj = LoginRequest(json_info=_msg)
             tmp_id = self.__game.gen_player_id(tmp_obj.usr_name, _s)
-            return LoginReply(id=tmp_id)
+            return LoginReply(id=tmp_id).dump_json()
+        else:
+            return "Unknown Message"
+
