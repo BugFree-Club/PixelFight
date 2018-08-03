@@ -3,16 +3,15 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:33'
 
+
 import os
 import json
-from message import JsonAttribute
+from pfmessage import *
 
 
 class PixelFightRule(object):
-    def __init__(self):
-        pass
 
-    def __init__(self, _mr, _mh, _mw, _pn, _egt, _pgr):
+    def __init__(self, _mr=None, _mh=0, _mw=0, _pn=None, _egt=None, _pgr=None):
         self.__max_round = _mr
         self.__map_height = _mh
         self.__map_width = _mw

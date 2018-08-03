@@ -113,11 +113,14 @@ class GameInfo(object):
 
 
 def get_msg_type(_s):
-    return json.load(_s)[JsonAttribute.msg_type]
+    a = json.loads(_s)[JsonAttribute.msg_type]
+    print(a)
+    return json.loads(_s)[JsonAttribute.msg_type]
 
 
 class MessageType(object):
     login_request = u'LoginRequest'
+    login_reply = u'LoginReply'
     player_command = u'PlayerCommand'
     game_info = u'GameInfo'
 
