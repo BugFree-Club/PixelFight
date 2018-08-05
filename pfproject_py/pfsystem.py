@@ -13,7 +13,7 @@ class PixelFightSystem(object):
         self.__networkSev = NetworkService(ip, port)
         self.__game = PixelFightGame()
 
-    def launch_server(self):
+    def launch_socket(self):
         try:
             self.__networkSev.listen()
             print('Start Listening')
@@ -33,8 +33,7 @@ class PixelFightSystem(object):
                 if not data:
                     break
                 client_msg = data.decode('utf-8')
-                peer_name = client_socket.getpeername()
-                server_reply = self.__address_request(client_msg, peer_name)
+                server_reply = self.__address_request(client_msg, client_socket)
                 print(u'Client Message : ' + client_msg)
                 client_socket.sendall(server_reply.encode('utf-8'))
             client_socket.close()
@@ -51,3 +50,8 @@ class PixelFightSystem(object):
         else:
             return "Unknown Message"
 
+    def manage_cmd(self):
+        while True:
+            cmd = input('>>')
+            if cmd == 'start':
+                self.__game.launch()

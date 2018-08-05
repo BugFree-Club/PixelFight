@@ -2,76 +2,70 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TrialProject.src
-{
-    public class LoginRequest
-    {
-        private String usr_name;
-        private String msg_type;
-     
-        public LoginRequest (String uname)
-        {
-            this.Usr_name = usr_name;
-            this.Msg_type = MessageType.login_request;
+namespace TrialProject.src {
+    public class MessageType {
+        public static String loginRequest = "LoginRequest";
+        public static String loginReply = "LoginReply";
+    }
+    public class LoginRequest {
+        private String msgType;
+        private String usrName;
+
+
+        public string UsrName { get => usrName; set => usrName = value; }
+        public string MsgType { get => msgType; set => msgType = value; }
+        public LoginRequest() { }
+        public LoginRequest(String _info, bool _isJson = false) {
+            if (_isJson) {
+                parseJson(_info);
+            } else {
+                this.MsgType = MessageType.loginRequest;
+                this.UsrName = UsrName;
+            }
+
         }
 
-        public LoginRequest(String json_info)
-        {
-            parse_json(json_info);
-        }
-        public LoginRequest()
-        { }
-        public string Usr_name { get => usr_name; set => value; };
-        public string Msg_type { get; set; };
+        private void parseJson(String _s) {
 
-        private void parse_json(String _s)
-        {
-            
         }
     }
 
-    public class LogReply
-    {
+    public class LogReply {
+        private String msgType;
         private String id;
-        public LogReply(String id)
-        {
-            this.Login_id = id;
-            this.Msg_type = Message.login.request;
+
+        public string MsgType { get => msgType; set => msgType = value; }
+        public string Id { get => id; set => id = value; }
+
+        public LogReply() { }
+        public LogReply(String _info, bool _isJson = false) {
+            if (_isJson) {
+                parseJson(_info);
+            } else {
+                this.msgType = MessageType.loginReply;
+                this.Id = _info;
+
+            }
         }
-        public LogReply(String json_info)
-        {
-            parse_json(json_info);
-        }
-        public LogReply()
-        { }
-        public string Login_id {get => id; set => value;};
-        private void parse_json(String _s)
-        {
-            
+
+        private void parseJson(String _s) {
+
         }
     }
-    public class PlayerCommand
-    {
+    public class PlayerCommand {
+        private String msgType;
+        private String playerId;
         private String x;
         private String y;
-        public PlayerCommand(String x, String y)
-        {
-            this.Target_x = x;
-            this.Target_y = y;
-            this.Player_id = null;
-            this.Msg_type = MessageType.login_request;
+        public PlayerCommand(String x, String y) {
+
 
         }
-        public PlayerCommand(String json_info)
-        {
-            prase_json(json_info);
+        public PlayerCommand(String json_info) {
+            parseJson(json_info);
         }
-        public PlayerCommand()
-        { }
-        public string Target_x { get; set; };
-        public string Target_y { get; set; };
-        private parse_json(String _s)
-        { }
+
+        private void parseJson(String _s) { }
 
     }
 }

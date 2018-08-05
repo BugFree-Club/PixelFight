@@ -113,8 +113,6 @@ class GameInfo(object):
 
 
 def get_msg_type(_s):
-    a = json.loads(_s)[JsonAttribute.msg_type]
-    print(a)
     return json.loads(_s)[JsonAttribute.msg_type]
 
 
