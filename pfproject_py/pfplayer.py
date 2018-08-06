@@ -5,9 +5,10 @@ __date__ = '2018/8/3 20:23'
 
 
 class PixelFightPlayer(object):
-    def __init__(self, *, usr_name=None, login_id=None):
+    def __init__(self, *, usr_name=None, login_id=None,socket = None):
         self.__usr_name = usr_name
         self.__login_id = login_id
+        self.__socket_info = socket
 
     @property
     def usr_name(self):
@@ -20,3 +21,8 @@ class PixelFightPlayer(object):
     @property
     def login_id(self):
         return self.__login_id
+
+    @property
+    def socket_info(self):
+        return self.__socket_info
+

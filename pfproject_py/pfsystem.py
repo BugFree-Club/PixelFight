@@ -6,7 +6,7 @@ __date__ = '2018/7/20 22:28'
 from networkservice import *
 from pfgame import *
 from pfmessage import *
-
+import time
 
 class PixelFightSystem(object):
     def __init__(self, *, ip=None, port=None):
@@ -31,18 +31,20 @@ class PixelFightSystem(object):
             while True:
                 data = client_socket.recv(2048)
                 if not data:
-                    break
+                    continue
                 client_msg = data.decode('utf-8')
                 server_reply = self.__address_request(client_msg, client_socket)
                 print(u'Client Message : ' + client_msg)
                 client_socket.sendall(server_reply.encode('utf-8'))
-            client_socket.close()
-        except Exception:
-            print('Error:Class:PixelFightSystem:address_msg')
+            # client_socket.close()
+            # print('Connect Closed')
+        except Exception as e:
+            print('Error:Class:PixelFightSystem:address_msg :' + str(e))
             client_socket.close()
 
     def __address_request(self, _msg, _s):
         tmp_type = get_msg_type(_msg)
+        print(tmp_type)
         if tmp_type == MessageType.login_request:
             tmp_obj = LoginRequest(json_info=_msg)
             tmp_id = self.__game.gen_player_id(tmp_obj.usr_name, _s)
