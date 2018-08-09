@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
+using System.Web;
 
 namespace TrialProject.src {
     public class MessageType {
@@ -26,8 +26,22 @@ namespace TrialProject.src {
                 UsrName = UsrName;
             }
         }
-
+        Dictionary<string, string> TmpDic = new Dictionary<string, string>();
+        private Dictionary<string, object> JsonToDictionary(string jsonData)
+        {
+            //实例化JavaScriptSerializer类的新实例
+            try
+            {
+                //将指定的 JSON 字符串转换为 Dictionary<string, object> 类型的对象
+                return jss.Deserialize<Dictionary<string, object>>(jsonData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         private void ParseJson(String _s) {
+
         }
     }
 
@@ -47,7 +61,9 @@ namespace TrialProject.src {
             }
         }
 
-        private void ParseJson(String _s) { }
+        private void ParseJson(String _s) {
+
+        }
     }
 
     public class PlayerCommand {
@@ -97,29 +113,26 @@ namespace TrialProject.src {
         private void ParseJson(String _s) { }
     }
 
-    public class JsonAttribute {
-        public string MsgType = "MsgType";
+    public class JsonAttribute{
+        public static String msgType = "MsgType";
+        //LoginRequest
+        public static String lrUsrName = "UsrName";
+        //LoginReply
+        public static String lreLoginId = "LoginId";
+        //PlayerCommand
+        public static String pcPlayerId = "PlayerId";
+        public static String pcTargetX = "TargetX";
+        public static String pcTargetY = "TargetY";
+        //GameInfo
+        public static String giMapInfo = "MapInfo";
+        public static String giRound = "Round";
+        //PfRule
+        public static String pfrMaxRound = "MaxRound";
+        public static String pfrMapHeight = "MapHeight";
+        public static String pfrMapWidth = "MapWidth";
+        public static String pfrPlayerNum = "PlayerNum";
+        public static String pfrEmptyGridTime = "EmptyGridTime";
+        public static String pfrPlayerGridTime = "PlayerGridTime";
     }
-
-/*
-*   LoginRequest
-    lr_usr_name = u'usr_name'
-    LoginReply
-    lre_login_id = u'login_id'
-    PlayCommand
-    pc_player_id = u'player_id'
-    pc_target_x = u'target_x'
-    pc_target_y = u'target_y'
-    GameInfo
-    gi_map_info = u'map_info'
-    gi_round = u'round'
-    pfRule
-    pfr_max_round = u'max_round'
-    pfr_map_height = u'map_height'
-    pfr_map_width = u'map_width'
-    pfr_player_num = u'player_num'
-    pfr_empty_grid_time = u'empty_grid_time'
-     pfr_player_grid_time = u'player_grid_time'
-*/
 }
 
