@@ -6,7 +6,7 @@ __date__ = '2018/7/24 21:56'
 import socket
 import threading
 from pfmessage import *
-
+from pfclient import *
 
 def test(i):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,5 +19,4 @@ def test(i):
 
 
 if __name__ == '__main__':
-    t = threading.Thread(target=test, args=(1,))
-    t.start()
+   tmp_client = PixelFightClient().launch_socket()

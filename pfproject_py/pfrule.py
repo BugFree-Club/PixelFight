@@ -3,7 +3,6 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:33'
 
-
 import os
 import json
 from pfmessage import *
@@ -11,7 +10,7 @@ from pfmessage import *
 
 class PixelFightRule(object):
 
-    def __init__(self, _mr=None, _mh=0, _mw=0, _pn=None, _egt=None, _pgr=None):
+    def __init__(self, _mr=1000, _mh=0, _mw=0, _pn=0, _egt=0, _pgr=0):
         self.__max_round = _mr
         self.__map_height = _mh
         self.__map_width = _mw
@@ -63,12 +62,12 @@ class PixelFightRule(object):
         return {JsonAttribute.pfr_max_round: self.__max_round,
                 JsonAttribute.pfr_map_height: self.__map_height,
                 JsonAttribute.pfr_map_width: self.__map_width,
-                JsonAttribute.pfr_player_num :self.__player_num,
+                JsonAttribute.pfr_player_num: self.__player_num,
                 JsonAttribute.pfr_empty_grid_time: self.__empty_grid_time,
                 JsonAttribute.pfr_player_grid_time: self.__player_grid_time}
 
     def dump_json(self):
-        return json.dumps(self.__dict__(),indent=4)
+        return json.dumps(self.__dict__(), indent=4)
 
     def output(self, _f_name):
         cur_path = os.path.abspath('.')
@@ -76,8 +75,8 @@ class PixelFightRule(object):
         with open(cur_path, 'w') as f:
             f.write(self.dump_json())
 
-    def load(self,_path):
-        with open(_path,'r') as f:
+    def load(self, _path):
+        with open(_path, 'r') as f:
             context = f.read()
         tmp_dic = json.loads(context)
         self.__max_round = tmp_dic[JsonAttribute.pfr_max_round]

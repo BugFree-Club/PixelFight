@@ -9,7 +9,7 @@ from pfmessage import *
 
 
 class PixelFightClient(object):
-    def __init__(self, *, usr_name='DefaultUser', ip=None, port=None):
+    def __init__(self, *, usr_name='DefaultUser', ip='127.0.0.1', port=7707):
         self.__server_ip = ip
         self.__server_port = port
         self.__client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,14 +31,19 @@ class PixelFightClient(object):
         self.__is_busy = False
         return data
 
+    # 开启客户端,连接服务器,获取登陆码
     def launch_socket(self):
         self.__connect()
+        self.login_request()
         while True:
             if self.__login_id is None:
                 continue
             if self.__is_busy is False:
                 data = self.__client_socket.recv(1024).decode('utf-8')
+                if not data:
+                    continue
                 print("Client Receive:" + data + ":End")
+
                 if get_msg_type(data) == MessageType.game_info:
                     tmp_info = GameInfo(json_info=data)
                     self.attack_request(tmp_info)
@@ -46,6 +51,7 @@ class PixelFightClient(object):
     def login_request(self):
         log_req = LoginRequest(uname=self.__usr_name).dump_json().encode('utf-8')
         reply_msg = self.__request(log_req)
+        print("Msg:" + reply_msg)
         if get_msg_type(reply_msg) == MessageType.login_reply:
             log_rep = LoginReply(json_info=reply_msg)
             self.__login_id = log_rep.login_id

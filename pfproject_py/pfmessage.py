@@ -41,7 +41,7 @@ class LoginRequest(object):
 class LoginReply(object):
     def __init__(self, *, id=None, json_info=None):
         if json_info is None:
-            self.__msg_type = MessageType.login_request
+            self.__msg_type = MessageType.login_reply
             self.__login_id = id
         else:
             self.parse_json(json_info)
@@ -70,11 +70,23 @@ class AttackRequest(object):
     def __init__(self, *, x=None, y=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.attack_request
-            self.__player_id = None
             self.__target_x = x
             self.__target_y = y
+            self.__player_id = None
         else:
             self.parse_json(json_info)
+
+    @property
+    def x(self):
+        return self.__target_x
+
+    @property
+    def y(self):
+        return self.__target_y
+
+    @property
+    def player_id(self):
+        return self.__player_id
 
     def __dict__(self):
         return {JsonAttribute.msg_type: self.__msg_type,
@@ -180,3 +192,8 @@ class JsonAttribute(object):
     pfr_player_num = u'player_num'
     pfr_empty_grid_time = u'empty_grid_time'
     pfr_player_grid_time = u'player_grid_time'
+
+    # pfMap
+    pfm_height = u'height'
+    pfm_width = u'width'
+    pfm_grid_map = u'grid_map'
