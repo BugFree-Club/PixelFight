@@ -6,21 +6,17 @@ __date__ = '2018/7/24 21:56'
 import socket
 import threading
 from pfmessage import *
+from pfclient import *
 
 def test(i):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(('127.0.0.1', 7878))
     tmp_req = LoginRequest(uname='zhiquan')
     s.send(tmp_req.dump_json().encode('utf-8'))
-    data = s.recv(1024).decode('utf-8')
-    print("Client Receive:" + data+":End")
+    while True:
+        data = s.recv(1024).decode('utf-8')
+        print("Client Receive:" + data + ":End")
 
 
 if __name__ == '__main__':
-    t = threading.Thread(target=test, args=(1,))
-    t.start()
-
-
-
-
-
+   tmp_client = PixelFightClient().launch_socket()

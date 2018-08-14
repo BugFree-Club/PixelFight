@@ -23,25 +23,17 @@ namespace TrialProject.src {
                 ParseJson(_info);
             } else {
                 MsgType = MessageType.loginRequest;
-                UsrName = UsrName;
+                UsrName = _info;
             }
         }
-        Dictionary<string, string> TmpDic = new Dictionary<string, string>();
-        private Dictionary<string, object> JsonToDictionary(string jsonData)
-        {
-            //实例化JavaScriptSerializer类的新实例
-            try
-            {
-                //将指定的 JSON 字符串转换为 Dictionary<string, object> 类型的对象
-                return jss.Deserialize<Dictionary<string, object>>(jsonData);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+        public void ParseJson(String _s) {
+            LoginRequest tmp_r = JsonConvert.DeserializeObject<LoginRequest>(_s);
+            this.msgType = tmp_r.MsgType;
+            this.usrName = tmp_r.UsrName;
         }
-        private void ParseJson(String _s) {
 
+        public String dumpJson() {
+            return JsonConvert.SerializeObject(this);
         }
     }
 
