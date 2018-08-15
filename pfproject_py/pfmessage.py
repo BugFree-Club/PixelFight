@@ -4,7 +4,7 @@ __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/21 22:12'
 
 import json
-
+import pfmap
 
 class LoginRequest(object):
     def __init__(self, *, uname=None, json_info=None):
@@ -130,7 +130,7 @@ class AttackReply(object):
 
 
 class GameInfo(object):
-    def __init__(self, *, pf_map=None, pf_round=None, json_info=None):
+    def __init__(self, *, pf_map=pfmap.PixelMap(), pf_round=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
             self.__map_info = pf_map

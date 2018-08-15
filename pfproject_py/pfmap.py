@@ -8,9 +8,9 @@ from pfmessage import *
 
 
 class PixelMap(object):
-    def __init__(self, _h, _w):
-        self.__height = _h
-        self.__width = _w
+    def __init__(self, *, height=0, width=0):
+        self.__height = height
+        self.__width = width
         self.__grid_map = [[None] * self.__width for i in range(self.__height)]
 
     @property

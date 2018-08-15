@@ -18,11 +18,12 @@ class PixelFightGame(object):
         self.__round_counter = 0
         self.__game_ratio = 0
         self.__player_info_list = []
-        self.__pixel_map = PixelMap(self.__game_rule.map_height, self.__game_rule.map_width)
+        self.__pixel_map = PixelMap(height=self.__game_rule.map_height, width=self.__game_rule.map_width)
 
     # 开始比赛,每回合轮流向玩家发送地图信息,并接收玩家攻击坐标
     def launch(self):
         max_round = self.__game_rule.max_round
+        print(max_round)
         for tmp_i in range(self.__game_rule.max_round):
             self.__round_counter = tmp_i
             for tmp_player in self.__player_info_list:
