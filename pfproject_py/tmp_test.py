@@ -11,9 +11,9 @@ import pfgame
 import pfmessage
 
 if __name__ == '__main__':
-    tmp_map = pfmap.PixelMap(map_height=1, map_width=2)
+    tmp_map = pfmap.PixelMap()
     print(tmp_map.dump_json())
-    tmp_msg = pfmessage.GameInfo(pf_map=tmp_map, pf_round=1)
+    tmp_msg = pfmessage.GameInfo()
     print(tmp_msg.dump_json())
 
     # tmp_game = pfgame.PixelFightGame()
