@@ -2,9 +2,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/21 22:07'
-
 import socket
-import threading
 
 
 class NetworkService(object):

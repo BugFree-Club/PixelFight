@@ -7,7 +7,7 @@ from networkservice import *
 from pfgame import *
 from pfmessage import *
 import time
-
+import threading
 
 class PixelFightSystem(object):
     def __init__(self, *, ip=None, port=None):
@@ -15,7 +15,11 @@ class PixelFightSystem(object):
         self.__game = PixelFightGame()
 
     def launch(self):
-        while(self.__game.pl)
+        network_thread = threading.Thread(target=self.launch_socket)
+        game_thread = threading.Thread(target=self.__game.launch)
+        network_thread.start()
+        game_thread.start()
+
 
     # 开启服务器端监听
     # 每当收到建立新的连接,开启一个线程处理
@@ -40,7 +44,7 @@ class PixelFightSystem(object):
                 if not data:
                     continue
                 client_msg = data.decode('utf-8')
-                print(u'Client Message : ' + client_msg)
+                print(u'Server Receive : ' + client_msg)
                 self.__address_request(client_msg, client_socket)
                 # client_socket.sendall(server_reply.encode('utf-8'))
             # client_socket.close()
@@ -59,7 +63,6 @@ class PixelFightSystem(object):
             tmp_rep = LoginReply(id=tmp_id).dump_json()
             print(tmp_rep)
             _s.sendall(tmp_rep.encode('utf-8'))
-            self.__game.launch()
         elif tmp_type == MessageType.attack_request:
             tmp_obj = AttackRequest(json_info=_msg)
             self.__game.attack_grid(tmp_obj.x, tmp_obj.y, tmp_obj.player_id)
@@ -67,9 +70,9 @@ class PixelFightSystem(object):
             tmp_rep = AttackReply().dump_json()
             _s.sendall(tmp_rep.encode('utf-8'))
 
-    # 开始游戏,对每一个socket用户循环发送游戏信息,并接受返回信息
-    def launch_game(self):
-        for tmp_round in range(self.__game.max_round):
-            self.__game.round_counter = tmp_round
-            for tmp_player in self.__game.player_info_list:
-                tmp_game_info = GameInfo(pf_map=self.__game.pixel_map, pf_round=self.__game.round_counter)
+    # # 开始游戏,对每一个socket用户循环发送游戏信息,并接受返回信息
+    # def launch_game(self):
+    #     for tmp_round in range(self.__game.max_round):
+    #         self.__game.round_counter = tmp_round
+    #         for tmp_player in self.__game.player_info_list:
+    #             tmp_game_info = GameInfo(pf_map=self.__game.pixel_map, pf_round=self.__game.round_counter)
