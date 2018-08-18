@@ -17,6 +17,7 @@ class PixelFightRule(object):
         self.__player_num = _pn
         self.__empty_grid_time = _egt  # 占领空白网格时间
         self.__player_grid_time = _pgr  # 占领玩家网格时间
+        self.__wait_time = 1
 
     @property
     def max_round(self):

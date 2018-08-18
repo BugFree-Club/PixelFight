@@ -3,14 +3,14 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:08'
 
-from pfgrid import *
-from pfmessage import *
+import json
+from taginfo import *
 
 
 class PixelMap(object):
-    def __init__(self, _h, _w):
-        self.__height = _h
-        self.__width = _w
+    def __init__(self, *, map_height=0, map_width=0):
+        self.__height = map_height
+        self.__width = map_width
         self.__grid_map = [[None] * self.__width for i in range(self.__height)]
 
     @property

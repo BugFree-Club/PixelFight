@@ -14,6 +14,9 @@ class PixelFightSystem(object):
         self.__networkSev = NetworkService(ip, port)
         self.__game = PixelFightGame()
 
+    def launch(self):
+        while(self.__game.pl)
+
     # 开启服务器端监听
     # 每当收到建立新的连接,开启一个线程处理
     def launch_socket(self):
@@ -53,7 +56,6 @@ class PixelFightSystem(object):
         if tmp_type == MessageType.login_request:
             tmp_obj = LoginRequest(json_info=_msg)
             tmp_id = self.__game.gen_player_id(tmp_obj.usr_name, _s)
-            print(tmp_id)
             tmp_rep = LoginReply(id=tmp_id).dump_json()
             print(tmp_rep)
             _s.sendall(tmp_rep.encode('utf-8'))
@@ -64,3 +66,10 @@ class PixelFightSystem(object):
             print("Player :" + tmp_obj.player_id + "Attack : " + tmp_obj.x + " - " + tmp_obj.y)
             tmp_rep = AttackReply().dump_json()
             _s.sendall(tmp_rep.encode('utf-8'))
+
+    # 开始游戏,对每一个socket用户循环发送游戏信息,并接受返回信息
+    def launch_game(self):
+        for tmp_round in range(self.__game.max_round):
+            self.__game.round_counter = tmp_round
+            for tmp_player in self.__game.player_info_list:
+                tmp_game_info = GameInfo(pf_map=self.__game.pixel_map, pf_round=self.__game.round_counter)
