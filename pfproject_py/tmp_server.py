@@ -8,4 +8,4 @@ from pfsystem import *
 
 if __name__ == '__main__':
     tmp_sys = PixelFightSystem(ip='127.0.0.1', port=7707)
-    tmp_sys.launch_socket()
+    tmp_sys.launch()

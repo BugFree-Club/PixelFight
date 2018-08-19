@@ -15,7 +15,7 @@ namespace TrialProject.src {
 
         }
 
-        public PFGrid(String _t,String _a,int _v) {
+        public PFGrid(String _t, String _a, int _v) {
             Type = _t;
             Attribution = _a;
             Value = _v;

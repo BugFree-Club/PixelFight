@@ -10,13 +10,14 @@ from pfmessage import *
 
 class PixelFightRule(object):
 
-    def __init__(self, _mr=1000, _mh=0, _mw=0, _pn=0, _egt=0, _pgr=0):
+    def __init__(self, _mr=1000, _mh=0, _mw=0, _pn=1, _egt=0, _pgr=0):
         self.__max_round = _mr
         self.__map_height = _mh
         self.__map_width = _mw
         self.__player_num = _pn
         self.__empty_grid_time = _egt  # 占领空白网格时间
         self.__player_grid_time = _pgr  # 占领玩家网格时间
+        self.__wait_time = 1
 
     @property
     def max_round(self):

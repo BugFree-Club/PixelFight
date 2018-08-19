@@ -1,5 +1,7 @@
 # !/usr/bin/env python3
 # -*- coding:utf-8 -*-
+from pfmap import PixelMap
+
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/21 22:12'
 
@@ -69,12 +71,12 @@ class LoginReply(object):
 
 
 class AttackRequest(object):
-    def __init__(self, *, x=None, y=None, json_info=None):
+    def __init__(self, *, x=None, y=None, player_id=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.attack_request
             self.__target_x = x
             self.__target_y = y
-            self.__player_id = None
+            self.__player_id = player_id
         else:
             self.parse_json(json_info)
 
@@ -102,8 +104,10 @@ class AttackRequest(object):
     def parse_json(self, _s):
         tmp_dic = json.loads(_s)
         self.__msg_type = tmp_dic[JsonAttribute.msg_type]
+        self.__player_id = tmp_dic[JsonAttribute.ar_player_id]
         self.__target_x = tmp_dic[JsonAttribute.ar_target_x]
         self.__target_y = tmp_dic[JsonAttribute.ar_target_y]
+
 
 
 class AttackReply(object):
@@ -132,7 +136,7 @@ class AttackReply(object):
 
 
 class GameInfo(object):
-    def __init__(self, *, pf_map, pf_round=0, json_info=None):
+    def __init__(self, *, pf_map=PixelMap(), pf_round=0, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
             self.__map_info = pf_map
