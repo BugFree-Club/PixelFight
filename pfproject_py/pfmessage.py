@@ -109,7 +109,6 @@ class AttackRequest(object):
         self.__target_y = tmp_dic[JsonAttribute.ar_target_y]
 
 
-
 class AttackReply(object):
     def __init__(self, *, is_suc=True, json_info=None):
         if json_info is None:
@@ -143,6 +142,14 @@ class GameInfo(object):
             self.__round = pf_round
         else:
             self.parse_json(json_info)
+
+    @property
+    def map_info(self):
+        return self.__map_info
+
+    @property
+    def round(self):
+        return self.__round
 
     def __dict__(self):
         return {JsonAttribute.msg_type: self.__msg_type,

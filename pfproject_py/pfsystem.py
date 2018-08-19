@@ -63,12 +63,15 @@ class PixelFightSystem(object):
             tmp_rep = LoginReply(id=tmp_id).dump_json()
             print(tmp_rep)
             _s.sendall(tmp_rep.encode('utf-8'))
+            if len(self.__game.player_info_list) == self.__game.game_rule.player_num:
+                self.__game.is_ready = True
         elif tmp_type == MessageType.attack_request:
             tmp_obj = AttackRequest(json_info=_msg)
             self.__game.attack_grid(tmp_obj.x, tmp_obj.y, tmp_obj.player_id)
-            print("Player :" + tmp_obj.player_id + "Attack : " + tmp_obj.x + " - " + tmp_obj.y)
-            tmp_rep = AttackReply().dump_json()
-            _s.sendall(tmp_rep.encode('utf-8'))
+            print("Player :" + tmp_obj.player_id + "Attack : " + str(tmp_obj.x) + " - " + str(tmp_obj.y))
+            # tmp_rep = AttackReply().dump_json()
+            # _s.sendall(tmp_rep.encode('utf-8'))
+            self.__game.is_pause = False
 
     # # 开始游戏,对每一个socket用户循环发送游戏信息,并接受返回信息
     # def launch_game(self):

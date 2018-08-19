@@ -46,7 +46,6 @@ class PixelFightClient(object):
                 print("Client Receive:" + data + ":End")
 
                 if get_msg_type(data) == MessageType.game_info:
-                    print('in')
                     tmp_info = GameInfo(json_info=data)
                     self.attack_request(tmp_info)
 
@@ -62,17 +61,11 @@ class PixelFightClient(object):
             print("Error:pfclient.login_request")
 
     def attack_request(self, tmp_info):
+        self.__cur_round = tmp_info.round
         tmp_pos = self.attack(tmp_info)
         tmp_cmd = AttackRequest(x=tmp_pos[0], y=tmp_pos[1], player_id=self.__login_id)
         print(tmp_cmd.dump_json())
-        rep_msg = self.__request(tmp_cmd.dump_json().encode('utf-8'))
-        print('Attack Request Receive:', rep_msg)
-        if get_msg_type(rep_msg) == MessageType.attack_reply:
-            attack_rep = AttackReply(json_info=rep_msg)
-            print("Round:" + str(self.__cur_round) + " : Attack ( " + str(self.__cur_pos[0]) + " , " + str(
-                self.__cur_pos[1]) + " ) " + str(attack_rep.is_suc))
-        else:
-            print("Error:pfclient.attack_request")
+        self.__client_socket.sendall(tmp_cmd.dump_json().encode('utf-8'))
 
     def attack(self, tmp_info):
         attack_pos = self.__cur_pos

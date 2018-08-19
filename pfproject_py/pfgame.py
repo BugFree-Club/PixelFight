@@ -70,6 +70,14 @@ class PixelFightGame(object):
     def is_pause(self, _flag):
         self.__is_pause = _flag
 
+    @property
+    def is_ready(self):
+        return self.__is_ready
+
+    @is_ready.setter
+    def is_ready(self, _flag):
+        self.__is_ready = _flag
+
     def load_game_rule(self):
         pass
 
@@ -86,8 +94,6 @@ class PixelFightGame(object):
     def add_player(self, _p):
         if len(self.__player_info_list) < self.game_rule.player_num:
             self.__player_info_list.append(_p)
-            if len(self.__player_info_list) == self.game_rule.player_num:
-                self.__is_ready = True
         return
 
     def attack_grid(self, _x, _y, _player_id):
