@@ -5,13 +5,15 @@ __date__ = '2018/7/20 22:08'
 
 import json
 from taginfo import *
+from pfgrid import *
+from pfrule import *
 
 
 class PixelMap(object):
     def __init__(self, *, map_height=0, map_width=0):
         self.__height = map_height
         self.__width = map_width
-        self.__grid_map = [[None] * self.__width for i in range(self.__height)]
+        self.__grid_map = [[PixelGrid()] * self.__width for i in range(self.__height)]
 
     @property
     def height(self):
@@ -24,6 +26,9 @@ class PixelMap(object):
     @property
     def grid_map(self):
         return self.__grid_map
+
+    def set_grid(self, _vec, _grid):
+        self.__grid_map[_vec[0]][_vec[1]] = _grid
 
     def __dict__(self):
         return {JsonAttribute.pfm_height: self.__height,

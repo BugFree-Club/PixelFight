@@ -1,5 +1,7 @@
 # !/usr/bin/env python3
 # -*- coding:utf-8 -*-
+import random
+
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:30'
 
@@ -14,7 +16,7 @@ import md5manager
 class PixelFightGame(object):
 
     def __init__(self):
-        self.__game_rule = PixelFightRule()
+        self.__game_rule = PixelFightRule(_mw=10,_mh=10)
         self.__round_counter = 0
         self.__game_ratio = 0
         self.__player_info_list = []
@@ -27,6 +29,9 @@ class PixelFightGame(object):
         print('System Waiting')
         while self.__is_ready is False:
             pass
+
+        self.init_map()
+        self.init_birthplace()
         print('Game Launched')
         max_round = self.__game_rule.max_round
         for tmp_i in range(self.__game_rule.max_round):
@@ -37,6 +42,43 @@ class PixelFightGame(object):
                 tmp_game_info = GameInfo(pf_map=self.__pixel_map, pf_round=self.__round_counter)
                 tmp_player.socket_info.sendall(tmp_game_info.dump_json().encode('utf-8'))
                 self.__is_pause = True
+
+    # 生成玩家ID
+    def gen_player_id(self, _uname, _socket_info):
+        if len(self.__player_info_list) >= self.__game_rule.player_num:
+            return '0'
+        tmp_id = md5manager.create_md5((_uname, _socket_info.getpeername(), time.time()))
+        tmp_p = PixelFightPlayer(usr_name=_uname, login_id=tmp_id, socket=_socket_info)
+        self.add_player(tmp_p)
+        # self.launch()
+        return tmp_id
+
+    # 添加玩家
+    def add_player(self, _p):
+        if len(self.__player_info_list) < self.game_rule.player_num:
+            self.__player_info_list.append(_p)
+        return
+
+    # 初始化地图
+    def init_map(self):
+        tmp_grid = PixelGrid(value=self.__game_rule.empty_grid_time)
+        [[self.__pixel_map.set_grid([x, y], tmp_grid) for x in range(0, self.__game_rule.map_width)] for y in
+         range(0, self.__game_rule.map_height)]
+
+    # 初始化玩家出生地
+    def init_birthplace(self):
+        for tmp_player in self.__player_info_list:
+            tmp_vec = [random.randint(0, self.__game_rule.map_width-1), random.randint(0, self.__game_rule.map_height-1)]
+            tmp_grid = PixelGrid(ptype=GridTag.type_land,
+                                 attribution=tmp_player.login_id,
+                                 value=self.game_rule.player_grid_time)
+            self.pixel_map.set_grid(tmp_vec, tmp_grid)
+
+    # 攻击网格
+    def attack_grid(self, _x, _y, _player_id):
+        self.__pixel_map.grid_map[_x][_y].value -= 1
+        if self.__pixel_map.grid_map[_x][_y].value <= 0:
+            self.__pixel_map.grid_map[_x][_y].attribution = GridTag.attribution_empty
 
     @property
     def max_round(self):
@@ -79,22 +121,4 @@ class PixelFightGame(object):
         self.__is_ready = _flag
 
     def load_game_rule(self):
-        pass
-
-    # 生成玩家ID
-    def gen_player_id(self, _uname, _socket_info):
-        if len(self.__player_info_list) >= self.__game_rule.player_num:
-            return '0'
-        tmp_id = md5manager.create_md5((_uname, _socket_info.getpeername(), time.time()))
-        tmp_p = PixelFightPlayer(usr_name=_uname, login_id=tmp_id, socket=_socket_info)
-        self.add_player(tmp_p)
-        # self.launch()
-        return tmp_id
-
-    def add_player(self, _p):
-        if len(self.__player_info_list) < self.game_rule.player_num:
-            self.__player_info_list.append(_p)
-        return
-
-    def attack_grid(self, _x, _y, _player_id):
         pass

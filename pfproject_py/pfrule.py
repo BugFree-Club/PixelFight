@@ -59,6 +59,14 @@ class PixelFightRule(object):
     def empty_grid_time(self, _v):
         self.__empty_grid_time = _v
 
+    @property
+    def player_grid_time(self):
+        return self.__player_grid_time
+
+    @player_grid_time.setter
+    def player_grid_time(self, _t):
+        self.__player_grid_time = _t
+
     def __dict__(self):
         return {JsonAttribute.pfr_max_round: self.__max_round,
                 JsonAttribute.pfr_map_height: self.__map_height,
