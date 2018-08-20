@@ -40,7 +40,7 @@ class PixelFightClient(object):
             if self.__login_id is None:
                 continue
             if self.__is_busy is False:
-                data = self.__client_socket.recv(1024).decode('utf-8')
+                data = self.__client_socket.recv(1024*1024).decode('utf-8')
                 if not data:
                     continue
                 print("Client Receive:" + data + ":End")

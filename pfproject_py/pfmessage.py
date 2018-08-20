@@ -136,7 +136,7 @@ class AttackReply(object):
 
 
 class GameInfo(object):
-    def __init__(self, *, pf_map, pf_round=0, json_info=None):
+    def __init__(self, *, pf_map = None, pf_round=0, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
             self.__map_info = pf_map

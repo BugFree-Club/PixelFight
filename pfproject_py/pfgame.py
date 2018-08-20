@@ -16,7 +16,7 @@ import md5manager
 class PixelFightGame(object):
 
     def __init__(self):
-        self.__game_rule = PixelFightRule(_mw=10,_mh=10)
+        self.__game_rule = PixelFightRule(_mw=10, _mh=10)
         self.__round_counter = 0
         self.__game_ratio = 0
         self.__player_info_list = []
@@ -40,6 +40,7 @@ class PixelFightGame(object):
                 while self.__is_pause:
                     pass
                 tmp_game_info = GameInfo(pf_map=self.__pixel_map, pf_round=self.__round_counter)
+                print(tmp_game_info.dump_json())
                 tmp_player.socket_info.sendall(tmp_game_info.dump_json().encode('utf-8'))
                 self.__is_pause = True
 
@@ -68,7 +69,8 @@ class PixelFightGame(object):
     # 初始化玩家出生地
     def init_birthplace(self):
         for tmp_player in self.__player_info_list:
-            tmp_vec = [random.randint(0, self.__game_rule.map_width-1), random.randint(0, self.__game_rule.map_height-1)]
+            tmp_vec = [random.randint(0, self.__game_rule.map_width - 1),
+                       random.randint(0, self.__game_rule.map_height - 1)]
             tmp_grid = PixelGrid(ptype=GridTag.type_land,
                                  attribution=tmp_player.login_id,
                                  value=self.game_rule.player_grid_time)
@@ -76,9 +78,18 @@ class PixelFightGame(object):
 
     # 攻击网格
     def attack_grid(self, _x, _y, _player_id):
-        self.__pixel_map.grid_map[_x][_y].value -= 1
-        if self.__pixel_map.grid_map[_x][_y].value <= 0:
-            self.__pixel_map.grid_map[_x][_y].attribution = GridTag.attribution_empty
+        tmp_grid = self.__pixel_map.grid_map[_x][_y]
+        # 攻击己方网格时:加固
+        if tmp_grid.attribution == _player_id:
+            tmp_grid.value += 1
+            self.__pixel_map.grid_map[_x][_y] = tmp_grid
+            return
+        # 攻击非己方网格时:使其生命值减一
+        tmp_grid.value -= 1
+        if tmp_grid.value <= 0:
+            tmp_grid.attribution = _player_id
+            tmp_grid.value = self.game_rule.player_grid_time
+        self.__pixel_map.grid_map[_x][_y] = tmp_grid
 
     @property
     def max_round(self):

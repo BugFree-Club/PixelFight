@@ -33,10 +33,14 @@ class PixelMap(object):
         self.__grid_map[_vec[0]][_vec[1]] = _grid
 
     def __dict__(self):
+        tmp_list = [[None] * self.__width for i in range(10)]
+        for x in range(self.__width):
+            for y in range(self.__height):
+                tmp_list[x][y] = self.__grid_map[x][y].__dict__()
+
         return {JsonAttribute.pfm_height: self.__height,
                 JsonAttribute.pfm_width: self.__width,
-                JsonAttribute.pfm_grid_map: [[self.__grid_map[x][y].__dict__ for x in range(self.__width)] for y in
-                                             range(self.__height)]}
+                JsonAttribute.pfm_grid_map: tmp_list}
 
     def dump_json(self):
         return json.dumps(self.__dict__())
@@ -49,7 +53,7 @@ class PixelMap(object):
         for x in range(self.__width):
             for y in range(self.__height):
                 tmp_grid_dict = tmp_map_list[x][y]
-                tmp_grid = PixelGrid(tmp_grid_dict[JsonAttribute.pfg_type],
-                                     tmp_grid_dict[JsonAttribute.pfg_attribution],
-                                     tmp_grid_dict[JsonAttribute.pfg_value])
+                tmp_grid = PixelGrid(ptype=tmp_grid_dict[JsonAttribute.pfg_type],
+                                     attribution=tmp_grid_dict[JsonAttribute.pfg_attribution],
+                                     value=tmp_grid_dict[JsonAttribute.pfg_value])
                 self.__grid_map[x][y] = tmp_grid

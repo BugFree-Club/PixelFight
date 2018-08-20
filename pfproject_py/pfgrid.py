@@ -38,6 +38,10 @@ class PixelGrid(object):
     def value(self):
         return self.__value
 
+    @value.setter
+    def value(self, _v):
+        self.__value = _v
+
     def __dict__(self):
         return {taginfo.JsonAttribute.pfg_type: self.__type,
                 taginfo.JsonAttribute.pfg_attribution: self.__attribution,
