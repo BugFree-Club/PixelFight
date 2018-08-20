@@ -29,6 +29,9 @@ class PixelMap(object):
     def grid_map(self):
         return self.__grid_map
 
+    def set_grid(self, _vec, _grid):
+        self.__grid_map[_vec[0]][_vec[1]] = _grid
+
     def __dict__(self):
         return {JsonAttribute.pfm_height: self.__height,
                 JsonAttribute.pfm_width: self.__width,

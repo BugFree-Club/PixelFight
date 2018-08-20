@@ -52,7 +52,6 @@ class PixelFightClient(object):
     def login_request(self):
         log_req = LoginRequest(uname=self.__usr_name).dump_json().encode('utf-8')
         reply_msg = self.__request(log_req)
-        print("Msg:" + reply_msg)
         if get_msg_type(reply_msg) == MessageType.login_reply:
             log_rep = LoginReply(json_info=reply_msg)
             self.__login_id = log_rep.login_id

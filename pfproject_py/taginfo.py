@@ -45,7 +45,7 @@ class JsonAttribute(object):
     pfm_width = u'width'
     pfm_grid_map = u'grid_map'
 
-    # pfg
+    # pfGrid
     pfg_type = u'type'
     pfg_attribution = u'attribution'
     pfg_value = u'value'

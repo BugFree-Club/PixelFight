@@ -1,6 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding:utf-8 -*-
-from pfmap import PixelMap
+
 
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/21 22:12'
@@ -8,6 +8,7 @@ __date__ = '2018/7/21 22:12'
 import json
 from pfmap import *
 from taginfo import *
+from pfmap import *
 
 
 class LoginRequest(object):
@@ -135,7 +136,7 @@ class AttackReply(object):
 
 
 class GameInfo(object):
-    def __init__(self, *, pf_map=PixelMap(), pf_round=0, json_info=None):
+    def __init__(self, *, pf_map, pf_round=0, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
             self.__map_info = pf_map
