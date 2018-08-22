@@ -1,6 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding:utf-8 -*-
-from pfmap import PixelMap
+
 
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/21 22:12'
@@ -8,6 +8,7 @@ __date__ = '2018/7/21 22:12'
 import json
 from pfmap import *
 from taginfo import *
+from pfmap import *
 
 
 class LoginRequest(object):
@@ -109,7 +110,6 @@ class AttackRequest(object):
         self.__target_y = tmp_dic[JsonAttribute.ar_target_y]
 
 
-
 class AttackReply(object):
     def __init__(self, *, is_suc=True, json_info=None):
         if json_info is None:
@@ -136,13 +136,21 @@ class AttackReply(object):
 
 
 class GameInfo(object):
-    def __init__(self, *, pf_map=PixelMap(), pf_round=0, json_info=None):
+    def __init__(self, *, pf_map = None, pf_round=0, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
             self.__map_info = pf_map
             self.__round = pf_round
         else:
             self.parse_json(json_info)
+
+    @property
+    def map_info(self):
+        return self.__map_info
+
+    @property
+    def round(self):
+        return self.__round
 
     def __dict__(self):
         return {JsonAttribute.msg_type: self.__msg_type,

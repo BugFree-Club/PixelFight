@@ -3,11 +3,11 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/20 22:28'
 
+import threading
 from networkservice import *
 from pfgame import *
 from pfmessage import *
-import time
-import threading
+
 
 class PixelFightSystem(object):
     def __init__(self, *, ip=None, port=None):
@@ -19,7 +19,6 @@ class PixelFightSystem(object):
         game_thread = threading.Thread(target=self.__game.launch)
         network_thread.start()
         game_thread.start()
-
 
     # 开启服务器端监听
     # 每当收到建立新的连接,开启一个线程处理
@@ -44,11 +43,7 @@ class PixelFightSystem(object):
                 if not data:
                     continue
                 client_msg = data.decode('utf-8')
-                print(u'Server Receive : ' + client_msg)
                 self.__address_request(client_msg, client_socket)
-                # client_socket.sendall(server_reply.encode('utf-8'))
-            # client_socket.close()
-            # print('Connect Closed')
         except Exception as e:
             print('Error:Class:PixelFightSystem:address_msg :' + str(e))
             client_socket.close()
@@ -56,23 +51,17 @@ class PixelFightSystem(object):
     # 请求处理函数,识别请求类别并提供服务
     def __address_request(self, _msg, _s):
         tmp_type = get_msg_type(_msg)
-        print(tmp_type)
+        print(u'Server Receive:' + _msg + ':End')
         if tmp_type == MessageType.login_request:
             tmp_obj = LoginRequest(json_info=_msg)
             tmp_id = self.__game.gen_player_id(tmp_obj.usr_name, _s)
             tmp_rep = LoginReply(id=tmp_id).dump_json()
-            print(tmp_rep)
             _s.sendall(tmp_rep.encode('utf-8'))
+            print(u'Server Reply:' + tmp_rep + ':End')
+            if len(self.__game.player_info_list) == self.__game.game_rule.player_num:
+                self.__game.is_ready = True
         elif tmp_type == MessageType.attack_request:
             tmp_obj = AttackRequest(json_info=_msg)
             self.__game.attack_grid(tmp_obj.x, tmp_obj.y, tmp_obj.player_id)
-            print("Player :" + tmp_obj.player_id + "Attack : " + tmp_obj.x + " - " + tmp_obj.y)
-            tmp_rep = AttackReply().dump_json()
-            _s.sendall(tmp_rep.encode('utf-8'))
-
-    # # 开始游戏,对每一个socket用户循环发送游戏信息,并接受返回信息
-    # def launch_game(self):
-    #     for tmp_round in range(self.__game.max_round):
-    #         self.__game.round_counter = tmp_round
-    #         for tmp_player in self.__game.player_info_list:
-    #             tmp_game_info = GameInfo(pf_map=self.__game.pixel_map, pf_round=self.__game.round_counter)
+            print("Player :" + tmp_obj.player_id + "Attack : " + str(tmp_obj.x) + " - " + str(tmp_obj.y))
+            self.__game.is_pause = False
