@@ -40,7 +40,7 @@ class PixelFightClient(object):
             if self.__login_id is None:
                 continue
             if self.__is_busy is False:
-                data = self.__client_socket.recv(1024*1024).decode('utf-8')
+                data = self.__client_socket.recv(1024 * 1024).decode('utf-8')
                 if not data:
                     continue
                 print("Client Receive:" + data + ":End")
@@ -67,10 +67,10 @@ class PixelFightClient(object):
         self.__client_socket.sendall(tmp_cmd.dump_json().encode('utf-8'))
 
     def attack(self, tmp_info):
-        attack_pos = self.__cur_pos
+        print(tmp_info.per_pos)
+        attack_pos = [tmp_info.per_pos[0] + 1, tmp_info.per_pos[1] ]
         # beign
         # your codes here
 
         # end
-        self.__cur_pos = attack_pos
         return attack_pos

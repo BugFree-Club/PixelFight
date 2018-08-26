@@ -31,6 +31,7 @@ class JsonAttribute(object):
     # GameInfo
     gi_map_info = u'map_info'
     gi_round = u'round'
+    gi_per_pos = u'per_pos'
 
     # pfRule
     pfr_max_round = u'max_round'
