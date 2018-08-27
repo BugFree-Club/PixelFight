@@ -4,7 +4,7 @@ __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/24 22:09'
 
 import socket
-import pfmap
+import attack_method
 from pfmessage import *
 
 
@@ -61,16 +61,9 @@ class PixelFightClient(object):
 
     def attack_request(self, tmp_info):
         self.__cur_round = tmp_info.round
-        tmp_pos = self.attack(tmp_info)
+        tmp_pos = attack_method.attack(tmp_info)
         tmp_cmd = AttackRequest(x=tmp_pos[0], y=tmp_pos[1], player_id=self.__login_id)
         print(tmp_cmd.dump_json())
         self.__client_socket.sendall(tmp_cmd.dump_json().encode('utf-8'))
 
-    def attack(self, tmp_info):
-        print(tmp_info.per_pos)
-        attack_pos = [tmp_info.per_pos[0] + 1, tmp_info.per_pos[1] ]
-        # beign
-        # your codes here
 
-        # end
-        return attack_pos

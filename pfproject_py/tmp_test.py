@@ -14,7 +14,7 @@ import pfmap
 import pfgame
 import pfmessage
 import random
-
+import pfrule
 
 def scatter_plot():
     """
@@ -60,15 +60,22 @@ def scatter_plot():
 
 
 if __name__ == '__main__':
-    tmp_map = pfmap.PixelMap(map_width=30, map_height=30)
+    tmp_rule = pfrule.PixelFightRule()
+    tmp_rule.output('standard-rule.txt')
+    # tmp_map = pfmap.PixelMap(map_width=30, map_height=30)
+    #
+    # for i in range(5):
+    #     tmp_map.grid_map[i][0].value += 1
+    #
+    #     tmp_map.grid_map[2][0].value = 4
+    #
+    # for i in range(5):
+    #     print(tmp_map.grid_map[i][0].value)
+    # for i in range(5):
+    #     print(tmp_map.grid_map[i][1].value)
+    # for i in range(5):
+    #     print(tmp_map.grid_map[0][i].value)
 
-    for i in range(5):
-        tmp_map.set_attribution(i+1, i+1, '333')
-
-    tmp_map.set_attribution(2, 2, '444')
-
-    for i in range(5):
-        print(tmp_map.grid_map[i][i].attribution)
 
     # scatter_plot()
 # [print(i) for i in range(10)]

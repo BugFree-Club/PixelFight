@@ -29,13 +29,17 @@ class PixelFightGame(object):
 
     # 开始比赛,每回合轮流向玩家发送地图信息,并接收玩家攻击坐标
     def launch(self):
-        print('System Waiting')
+        cur_path = os.path.abspath('.')
+        cur_path = os.path.join(cur_path, 'standard-rule.txt')
+        self.__game_rule.load(cur_path)
+        print('Game Rule Loaded ... ')
+        print('System Waiting ...')
         while self.__is_ready is False:
             pass
 
         self.init_map()
         self.init_birthplace()
-        print('Game Launched')
+        print('Game Launched ...')
         self.__vision_manager = VisionManager(player_info_list=self.__player_info_list,
                                               game_rule=self.__game_rule)
         self.__vision_manager.activate()
@@ -71,8 +75,8 @@ class PixelFightGame(object):
 
     # 初始化地图
     def init_map(self):
-        tmp_grid = PixelGrid(value=self.__game_rule.empty_grid_time)
-        [[self.__pixel_map.set_grid([x, y], tmp_grid) for x in range(0, self.__game_rule.map_width)] for y in
+        [[self.__pixel_map.set_grid([x, y], PixelGrid(value=self.__game_rule.empty_grid_time)) for x in
+          range(0, self.__game_rule.map_width)] for y in
          range(0, self.__game_rule.map_height)]
 
     # 初始化玩家出生地
@@ -88,24 +92,29 @@ class PixelFightGame(object):
 
     # 攻击网格
     def attack_grid(self, _x, _y, _player_id):
-        print(_x,_y)
+        tmp_player_index = 0
+        for i in range(len(self.__player_info_list)):
+            if self.__player_info_list[i].login_id == _player_id:
+                tmp_player_index = i
+                break
+
         # 判断攻击网格是否合法
         if self.attack_illegal(_x, _y, _player_id) is False:
-            for tmp_player in self.__player_info_list:
-                if tmp_player.login_id == _player_id:
-                    self.attack_illegal(tmp_player.last_attack_grid[0], tmp_player.last_attack_grid[1], _player_id)
-                    return
+            self.attack_illegal(self.__player_info_list[tmp_player_index].last_attack_grid[0],
+                                self.__player_info_list[tmp_player_index].last_attack_grid[1],
+                                _player_id)
             return
         # 攻击己方网格时:加固
         if self.__pixel_map.grid_map[_x][_y].attribution == _player_id:
             self.__pixel_map.grid_map[_x][_y].value += 1
-
+            self.__player_info_list[tmp_player_index].last_attack_grid = [_x, _y]
             return
         # 攻击非己方网格时:使其生命值减一
         self.__pixel_map.grid_map[_x][_y].value -= 1
         if self.__pixel_map.grid_map[_x][_y].value <= 0:
             self.__pixel_map.grid_map[_x][_y].attribution = _player_id
             self.__pixel_map.grid_map[_x][_y].value = self.game_rule.player_grid_time
+            self.__player_info_list[tmp_player_index].last_attack_grid = [_x, _y]
 
     def attack_illegal(self, _x, _y, _player_id):
         tmp_grid = self.__pixel_map.grid_map[_x][_y]

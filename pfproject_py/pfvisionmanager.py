@@ -3,9 +3,10 @@
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/8/26 15:37'
 
-import matplotlib
+import matplotlib.colors
 import matplotlib.pyplot as plt
 import random
+
 
 
 class VisionManager(object):
@@ -15,7 +16,9 @@ class VisionManager(object):
         self.__grid_width = game_rule.map_width
         self.__cube_size = 80
         self.__title = u'Pixel-Fight-Map'
-        self.__color_list = [[random.random(), random.random(), random.random()] for _ in range(len(player_info_list))]
+        self.__color_list = [
+            matplotlib.colors.to_hex([random.random(), random.random(), random.random()])
+            for _ in range(len(player_info_list))]
         self.__player_info_list = player_info_list
 
     def activate(self):
@@ -25,24 +28,26 @@ class VisionManager(object):
         plt.ioff()
 
     def update(self, game_map):
+        plt.cla()
         plt.title(self.__title)
         plt.xlim(0, self.__grid_width)
         plt.ylim(0, self.__grid_height)
         ax = plt.gca()
         ax.set_yticks([i for i in range(0, 30)])
         ax.set_xticks([i for i in range(0, 30)])
-        matplotlib.pyplot.gcf().set_size_inches(5, 5)
-        plt.grid(True)
 
+        plt.grid(True)
+        counter = 0
         for tmp_player in self.__player_info_list:
             tmp_data = self.parse_data(tmp_player.login_id, game_map)
             plt.scatter(tmp_data[0], tmp_data[1],
                         s=self.__cube_size,
-                        c=self.__color_list[0],
+                        c=self.__color_list[counter],
                         marker="s")
+            counter += 1
 
-        plt.pause(1)
-            # label=tmp_player.usr_name)
+        plt.pause(0.1)
+        # label=tmp_player.usr_name)
         # plot_list.append(tmp_plot)
 
     def parse_data(self, player_id, game_map):

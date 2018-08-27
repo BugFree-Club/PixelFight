@@ -13,10 +13,9 @@ class PixelMap(object):
         if json_info is None:
             self.__height = map_height
             self.__width = map_width
-            self.__grid_map = [[None] * self.__width for _ in range(self.__height)]
-            for tmp_x in range(self.__height):
-                for tmp_y in range(self.__width):
-                    self.__grid_map[tmp_x][tmp_y] = PixelGrid()
+            self.__grid_map = []
+            for _ in range(self.__height):
+                self.__grid_map.append([PixelGrid() for _ in range(self.__width)])
         else:
             self.parse_json(json_info)
 
