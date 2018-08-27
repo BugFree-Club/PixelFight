@@ -60,7 +60,15 @@ def scatter_plot():
 
 
 if __name__ == '__main__':
-    scatter_plot()
+    tmp_map = pfmap.PixelMap(map_width=30, map_height=30)
+
+    for i in range(5):
+        tmp_map.set_attribution(i+1, i+1, '333')
+
+    tmp_map.set_attribution(2, 2, '444')
+
+    for i in range(5):
+        print(tmp_map.grid_map[i][i].attribution)
 
     # scatter_plot()
 # [print(i) for i in range(10)]

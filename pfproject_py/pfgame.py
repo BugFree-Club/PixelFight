@@ -89,7 +89,6 @@ class PixelFightGame(object):
     # 攻击网格
     def attack_grid(self, _x, _y, _player_id):
         print(_x,_y)
-        tmp_grid = self.__pixel_map.grid_map[_x][_y]
         # 判断攻击网格是否合法
         if self.attack_illegal(_x, _y, _player_id) is False:
             for tmp_player in self.__player_info_list:
@@ -98,16 +97,15 @@ class PixelFightGame(object):
                     return
             return
         # 攻击己方网格时:加固
-        if tmp_grid.attribution == _player_id:
-            tmp_grid.value += 1
-            self.__pixel_map.grid_map[_x][_y] = tmp_grid
+        if self.__pixel_map.grid_map[_x][_y].attribution == _player_id:
+            self.__pixel_map.grid_map[_x][_y].value += 1
+
             return
         # 攻击非己方网格时:使其生命值减一
-        tmp_grid.value -= 1
-        if tmp_grid.value <= 0:
-            tmp_grid.attribution = _player_id
-            tmp_grid.value = self.game_rule.player_grid_time
-        self.__pixel_map.grid_map[_x][_y] = tmp_grid
+        self.__pixel_map.grid_map[_x][_y].value -= 1
+        if self.__pixel_map.grid_map[_x][_y].value <= 0:
+            self.__pixel_map.grid_map[_x][_y].attribution = _player_id
+            self.__pixel_map.grid_map[_x][_y].value = self.game_rule.player_grid_time
 
     def attack_illegal(self, _x, _y, _player_id):
         tmp_grid = self.__pixel_map.grid_map[_x][_y]

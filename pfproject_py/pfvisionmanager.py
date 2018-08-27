@@ -36,11 +36,12 @@ class VisionManager(object):
 
         for tmp_player in self.__player_info_list:
             tmp_data = self.parse_data(tmp_player.login_id, game_map)
-            print(tmp_data)
             plt.scatter(tmp_data[0], tmp_data[1],
                         s=self.__cube_size,
                         c=self.__color_list[0],
                         marker="s")
+
+        plt.pause(1)
             # label=tmp_player.usr_name)
         # plot_list.append(tmp_plot)
 
