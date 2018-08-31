@@ -2,7 +2,7 @@
     "max_round": 1000,
     "map_height": 30,
     "map_width": 30,
-    "player_num": 10,
+    "player_num": 2,
     "empty_grid_time": 1,
     "player_grid_time": 2
 }

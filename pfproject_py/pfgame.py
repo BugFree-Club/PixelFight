@@ -52,22 +52,10 @@ class PixelFightGame(object):
                 tmp_game_info = GameInfo(pf_map=self.__pixel_map,
                                          per_pos=tmp_player.last_attack_grid,
                                          pf_round=self.__round_counter)
-                # print(tmp_game_info.dump_json())
+                print(tmp_game_info.dump_json())
                 self.__vision_manager.update(self.__pixel_map)
                 tmp_player.socket_info.sendall(tmp_game_info.dump_json().encode('utf-8'))
                 self.__is_pause = True
-            print('Round :' + str(self.__round_counter))
-            tmp_score_dir = self.cal_player_score()
-            for tmp_player in self.player_info_list:
-                print(tmp_player.login_id, ' : ', tmp_score_dir[tmp_player.login_id])
-
-    def cal_player_score(self):
-        tmp_score_dir = {tmp_player.login_id: 0 for tmp_player in self.player_info_list}
-        for tmp_x in range(self.game_rule.map_height):
-            for tmp_y in range(self.game_rule.map_width):
-                if self.pixel_map.grid_map[tmp_x][tmp_y].attribution != 'empty':
-                    tmp_score_dir[self.pixel_map.grid_map[tmp_x][tmp_y].attribution] += 1
-        return tmp_score_dir
 
     # 生成玩家ID
     def gen_player_id(self, _uname, _socket_info):
@@ -129,16 +117,13 @@ class PixelFightGame(object):
             self.__player_info_list[tmp_player_index].last_attack_grid = [_x, _y]
 
     def attack_illegal(self, _x, _y, _player_id):
-        if _x < 0 or _y < 0 or _x >= 30 or _y >= 30:
-            return False
         tmp_grid = self.__pixel_map.grid_map[_x][_y]
-
         if tmp_grid.attribution == _player_id:
             return True
-        dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+        dirs = [[-1, 0], [0, 1], [0, 1], [-1, 0]]
         for tmp_dir in dirs:
             tmp_target = [_x + tmp_dir[0], _y + tmp_dir[1]]
-            if tmp_target[0] < 0 or tmp_target[1] < 0 or tmp_target[0] >= 30 or tmp_target[1] >= 30:
+            if tmp_target[0] < 0 or tmp_target[1] < 0:
                 continue
             if self.__pixel_map.grid_map[tmp_target[0]][tmp_target[1]].attribution == _player_id:
                 return True

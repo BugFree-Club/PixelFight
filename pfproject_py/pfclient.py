@@ -27,7 +27,7 @@ class PixelFightClient(object):
     def __request(self, msg=None):
         self.__is_busy = True
         self.__client_socket.sendall(msg)
-        #print('Client Send: ', msg)
+        print('Client Send: ', msg)
         data = self.__client_socket.recv(1024).decode('utf-8')
         self.__is_busy = False
         return data
@@ -43,7 +43,7 @@ class PixelFightClient(object):
                 data = self.__client_socket.recv(1024 * 1024).decode('utf-8')
                 if not data:
                     continue
-                #print("Client Receive:" + data + ":End")
+                print("Client Receive:" + data + ":End")
 
                 if get_msg_type(data) == MessageType.game_info:
                     tmp_info = GameInfo(json_info=data)
@@ -63,7 +63,7 @@ class PixelFightClient(object):
         self.__cur_round = tmp_info.round
         tmp_pos = attack_method.attack(tmp_info)
         tmp_cmd = AttackRequest(x=tmp_pos[0], y=tmp_pos[1], player_id=self.__login_id)
-        # print(tmp_cmd.dump_json())
+        print(tmp_cmd.dump_json())
         self.__client_socket.sendall(tmp_cmd.dump_json().encode('utf-8'))
 
 

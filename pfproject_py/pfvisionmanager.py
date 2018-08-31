@@ -46,7 +46,7 @@ class VisionManager(object):
                         marker="s")
             counter += 1
 
-        plt.pause(0.00001)
+        plt.pause(0.1)
         # label=tmp_player.usr_name)
         # plot_list.append(tmp_plot)
 
