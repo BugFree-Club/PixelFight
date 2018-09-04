@@ -136,10 +136,11 @@ class AttackReply(object):
 
 
 class GameInfo(object):
-    def __init__(self, *, pf_map = None, pf_round=0, json_info=None):
+    def __init__(self, *, pf_map=None, pf_round=0, per_pos=None, json_info=None):
         if json_info is None:
             self.__msg_type = MessageType.game_info
             self.__map_info = pf_map
+            self.__per_pos = per_pos
             self.__round = pf_round
         else:
             self.parse_json(json_info)
@@ -152,9 +153,14 @@ class GameInfo(object):
     def round(self):
         return self.__round
 
+    @property
+    def per_pos(self):
+        return self.__per_pos
+
     def __dict__(self):
         return {JsonAttribute.msg_type: self.__msg_type,
                 JsonAttribute.gi_map_info: self.__map_info.__dict__(),
+                JsonAttribute.gi_per_pos:self.__per_pos,
                 JsonAttribute.gi_round: self.__round}
 
     def dump_json(self):
@@ -164,6 +170,7 @@ class GameInfo(object):
         tmp_dic = json.loads(_s)
         self.__msg_type = tmp_dic[JsonAttribute.msg_type]
         self.__map_info = tmp_dic[JsonAttribute.gi_map_info]
+        self.__per_pos = tmp_dic[JsonAttribute.gi_per_pos]
         self.__round = tmp_dic[JsonAttribute.gi_round]
 
 

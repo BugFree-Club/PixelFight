@@ -13,7 +13,9 @@ class PixelMap(object):
         if json_info is None:
             self.__height = map_height
             self.__width = map_width
-            self.__grid_map = [[PixelGrid()] * self.__width for i in range(self.__height)]
+            self.__grid_map = []
+            for _ in range(self.__height):
+                self.__grid_map.append([PixelGrid() for _ in range(self.__width)])
         else:
             self.parse_json(json_info)
 
@@ -32,10 +34,13 @@ class PixelMap(object):
     def set_grid(self, _vec, _grid):
         self.__grid_map[_vec[0]][_vec[1]] = _grid
 
+    def set_attribution(self, _x, _y, _attr):
+        self.__grid_map[_x][_y].attribution = _attr
+
     def __dict__(self):
-        tmp_list = [[None] * self.__width for i in range(10)]
-        for x in range(self.__width):
-            for y in range(self.__height):
+        tmp_list = [[None] * self.__width for _ in range(self.__height)]
+        for x in range(self.__height):
+            for y in range(self.__width):
                 tmp_list[x][y] = self.__grid_map[x][y].__dict__()
 
         return {JsonAttribute.pfm_height: self.__height,

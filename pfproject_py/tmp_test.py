@@ -1,10 +1,10 @@
 # _*_coding: utf-8 _*_
-import numpy as np
 
 __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/24 '
 
 import sys
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from pfrule import PixelFightRule
@@ -13,7 +13,8 @@ import time
 import pfmap
 import pfgame
 import pfmessage
-
+import random
+import pfrule
 
 def scatter_plot():
     """
@@ -22,28 +23,33 @@ def scatter_plot():
     # 打开交互模式
     plt.ion()
 
-    # 循环
-    for index in range(50):
-        # 清除原有图像
-        # plt.cla()
+    point_count = 5
+    # 清除原有图像
+    plt.cla()
 
-        # 设定标题等
-        plt.title("动态散点图")
-        plt.grid(True)
+    # 设定标题等
+    plt.title("Pixel-Fight-Map")
+    plt.xlim(0, 30)
+    plt.ylim(0, 30)
+    ax = plt.gca()
+    ax.set_yticks([i for i in range(0, 30)])
+    ax.set_xticks([i for i in range(0, 30)])
+    plt.grid(True)
 
-        # 生成测试数据
-        point_count = 5
-        x_index = np.random.random(point_count)
-        y_index = np.random.random(point_count)
+    # 生成测试数据
 
-        # 设置相关参数
-        color_list = np.random.random(point_count)
+    x_index = [1.5, 22.5, 5.5, 4.5, 9.5]
+    y_index = [1.5, 2.5, 2.5, 5.5, 5.5]
 
-        # 画散点图
-        plt.scatter(x_index, y_index, s=1000, c=color_list, marker="s")
+    # 设置相关参数
+    color_list = [random.random() for _ in range(5)]
+    print(color_list)
 
-        # 暂停
-        plt.pause(0.2)
+    # 画散点图
+    plt.scatter(x_index, y_index, s=80, c=[0.3, 0.6, 0.3], marker="s", label='123')
+    matplotlib.pyplot.gcf().set_size_inches(5, 5)
+    # 暂停
+    plt.pause(1)
 
     # 关闭交互模式
     plt.ioff()
@@ -54,7 +60,22 @@ def scatter_plot():
 
 
 if __name__ == '__main__':
-    scatter_plot()
+    tmp_rule = pfrule.PixelFightRule()
+    tmp_rule.output('standard-rule.txt')
+    # tmp_map = pfmap.PixelMap(map_width=30, map_height=30)
+    #
+    # for i in range(5):
+    #     tmp_map.grid_map[i][0].value += 1
+    #
+    #     tmp_map.grid_map[2][0].value = 4
+    #
+    # for i in range(5):
+    #     print(tmp_map.grid_map[i][0].value)
+    # for i in range(5):
+    #     print(tmp_map.grid_map[i][1].value)
+    # for i in range(5):
+    #     print(tmp_map.grid_map[0][i].value)
+
 
     # scatter_plot()
 # [print(i) for i in range(10)]

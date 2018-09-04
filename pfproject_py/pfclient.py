@@ -4,7 +4,7 @@ __author__ = 'Zhiquan Wang'
 __date__ = '2018/7/24 22:09'
 
 import socket
-import pfmap
+import attack_method
 from pfmessage import *
 
 
@@ -40,7 +40,7 @@ class PixelFightClient(object):
             if self.__login_id is None:
                 continue
             if self.__is_busy is False:
-                data = self.__client_socket.recv(1024*1024).decode('utf-8')
+                data = self.__client_socket.recv(1024 * 1024).decode('utf-8')
                 if not data:
                     continue
                 print("Client Receive:" + data + ":End")
@@ -61,16 +61,9 @@ class PixelFightClient(object):
 
     def attack_request(self, tmp_info):
         self.__cur_round = tmp_info.round
-        tmp_pos = self.attack(tmp_info)
+        tmp_pos = attack_method.attack(tmp_info)
         tmp_cmd = AttackRequest(x=tmp_pos[0], y=tmp_pos[1], player_id=self.__login_id)
         print(tmp_cmd.dump_json())
         self.__client_socket.sendall(tmp_cmd.dump_json().encode('utf-8'))
 
-    def attack(self, tmp_info):
-        attack_pos = self.__cur_pos
-        # beign
-        # your codes here
 
-        # end
-        self.__cur_pos = attack_pos
-        return attack_pos

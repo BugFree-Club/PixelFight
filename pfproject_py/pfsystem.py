@@ -16,9 +16,8 @@ class PixelFightSystem(object):
 
     def launch(self):
         network_thread = threading.Thread(target=self.launch_socket)
-        game_thread = threading.Thread(target=self.__game.launch)
         network_thread.start()
-        game_thread.start()
+        self.__game.launch()
 
     # 开启服务器端监听
     # 每当收到建立新的连接,开启一个线程处理
@@ -36,17 +35,17 @@ class PixelFightSystem(object):
     # 连接处理线程,保持接受状态,每当收到新的请求,处理并返回结果
     def __address_msg(self, _c_socket_info):
         client_socket = _c_socket_info[0]
-        try:
+        # try:
             # Receive Client Message
-            while True:
-                data = client_socket.recv(2048)
-                if not data:
-                    continue
-                client_msg = data.decode('utf-8')
-                self.__address_request(client_msg, client_socket)
-        except Exception as e:
-            print('Error:Class:PixelFightSystem:address_msg :' + str(e))
-            client_socket.close()
+        while True:
+            data = client_socket.recv(2048)
+            if not data:
+                continue
+            client_msg = data.decode('utf-8')
+            self.__address_request(client_msg, client_socket)
+       # except Exception as e:
+       #     print('Error:Class:PixelFightSystem:address_msg :' + str(e))
+       #     client_socket.close()
 
     # 请求处理函数,识别请求类别并提供服务
     def __address_request(self, _msg, _s):
@@ -65,3 +64,4 @@ class PixelFightSystem(object):
             self.__game.attack_grid(tmp_obj.x, tmp_obj.y, tmp_obj.player_id)
             print("Player :" + tmp_obj.player_id + "Attack : " + str(tmp_obj.x) + " - " + str(tmp_obj.y))
             self.__game.is_pause = False
+
