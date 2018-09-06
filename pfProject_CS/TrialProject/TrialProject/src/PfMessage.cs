@@ -4,12 +4,6 @@ using Newtonsoft.Json;
 using System.Web;
 
 namespace TrialProject.src {
-    public class MessageType {
-        public static String loginRequest = "LoginRequest";
-        public static String loginReply = "LoginReply";
-        public static String playerCommand = "PlayerCommand";
-        public static String gameInfo = "GameInfo";
-    }
 
     public class LoginRequest {
         private String msgType;
@@ -18,12 +12,12 @@ namespace TrialProject.src {
         public string UsrName { get => usrName; set => usrName = value; }
         public string MsgType { get => msgType; set => msgType = value; }
         public LoginRequest() { }
-        public LoginRequest(String _info, bool _isJson = false) {
+        public LoginRequest(String _info, String uname, bool _isJson = false) {
             if (_isJson) {
                 ParseJson(_info);
             } else {
                 MsgType = MessageType.loginRequest;
-                UsrName = _info;
+                UsrName = uname;
             }
         }
         public void ParseJson(String _s) {
@@ -32,99 +26,140 @@ namespace TrialProject.src {
             this.usrName = tmp_r.UsrName;
         }
 
-        public String dumpJson() {
+        public String DumpJson() {
             return JsonConvert.SerializeObject(this);
         }
     }
 
     public class LoginReply {
         private String msgType;
-        private string id1;
+        private string loginId;
         public string MsgType { get => msgType; set => msgType = value; }
-        public string Id { get => id1; set => id1 = value; }
+        public string LoginId { get => loginId; set => loginId = value; }
 
+        
         public LoginReply() { }
-        public LoginReply(String _info, bool _isJson = false) {
+        public LoginReply(String _info, String id, bool _isJson = false) {
             if (_isJson) {
                 ParseJson(_info);
             } else {
                 MsgType = MessageType.loginReply;
-                Id = Id;
+                LoginId = id;
             }
         }
 
         private void ParseJson(String _s) {
+            LoginReply tmp_r = JsonConvert.DeserializeObject<LoginReply>(_s);
+            this.msgType = tmp_r.MsgType;
+            this.loginId = tmp_r.LoginId;
+        }
 
+        private string DumpJson() {
+            return JsonConvert.SerializeObject(this);
         }
     }
 
-    public class PlayerCommand {
+    public class AttackRequest {
         private string msgType;
         private string playerId;
-        private string targetX;
-        private string targetY;
-
-        public PlayerCommand() { }
-        public PlayerCommand(String _info, bool _isJson = false) {
+        private int targetY;
+        private int targetX;
+        public AttackRequest() { }
+        public AttackRequest(String _info, int x, int y, String playerId, bool _isJson = false) {
             if (_isJson){
                 ParseJson(_info);
             } else{
-                MsgType = MessageType.playerCommand;
-                PlayerId = null;
-                TargetX = TargetX;
-                TargetY = TargetY;
+                MsgType = MessageType.attackRequest;
+                PlayerId = playerId;
+                TargetX = x;
+                TargetY = y;
             }
         }
 
         public string MsgType { get => msgType; set => msgType = value; }
         public string PlayerId { get => playerId; set => playerId = value; }
-        public string TargetX { get => targetX; set => targetX = value; }
-        public string TargetY { get => targetY; set => targetY = value; }
+        public int TargetX { get => targetX; set => targetX = value; }
+        public int TargetY { get => targetY; set => targetY = value; }
 
-        private void ParseJson(String _s) { }   
+        
+        private void ParseJson(String _s) {
+            AttackRequest tmp_r = JsonConvert.DeserializeObject<AttackRequest>(_s);
+            this.msgType = tmp_r.MsgType;
+            this.playerId = tmp_r.PlayerId;
+            this.targetX = tmp_r.TargetX;
+            this.targetY = tmp_r.TargetY;
+        }   
+
+        private string DumpJson(){
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
+    public class AttackReply {
+        private string msgType;
+        private string isSuc;
+
+        public AttackReply() { }
+        public AttackReply(String _info, String isSuc, bool _isJson = false) {
+            if (_isJson) {
+                ParseJson(_info);
+            }
+            else {
+                MsgType = MessageType.attackReply;
+                IsSuc = isSuc;
+            }
+        }
+
+        private void ParseJson(String _s){
+            AttackReply tmp_r = JsonConvert.DeserializeObject<AttackReply>(_s);
+            msgType = tmp_r.MsgType;
+            isSuc = tmp_r.IsSuc;
+        }
+
+        private string DumpJson(){
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public string MsgType { get => msgType; set => msgType = value; }
+        public string IsSuc { get => isSuc; set => isSuc = value; }
+    }
     public class GameInfo{
         private string msgType;
         private string mapInfo;
-        private string round;
-        public GameInfo(String _info, bool _isJson = false) {
+        private string perPos;
+        private int round;
+        public GameInfo(String _info, String pfMap, int pfRound, String perPos, bool _isJson = false) {
             if (_isJson){
                 ParseJson(_info);
             }
             else {
                 MsgType = MessageType.gameInfo;
-                MapInfo = MapInfo;
-                Round = Round;
+                MapInfo = pfMap;
+                PerPos = perPos;
+                Round = pfRound;
             }
                 }
         public string MsgType { get => msgType; set => msgType = value; }
         public string MapInfo { get => mapInfo; set => mapInfo = value; }
-        public string Round { get => round; set => round = value; }
+        public string PerPos { get => perPos; set => perPos = value; }
+        public int Round { get => round; set => round = value; }
 
-        private void ParseJson(String _s) { }
-    }
+        private void ParseJson(String _s) {
+            GameInfo tmp_r = JsonConvert.DeserializeObject<GameInfo>(_s);
+            msgType = tmp_r.MsgType;
+            mapInfo = tmp_r.MapInfo;
+            perPos = tmp_r.PerPos;
+            round = tmp_r.Round;
+        }
 
-    public class JsonAttribute{
-        public static String msgType = "MsgType";
-        //LoginRequest
-        public static String lrUsrName = "UsrName";
-        //LoginReply
-        public static String lreLoginId = "LoginId";
-        //PlayerCommand
-        public static String pcPlayerId = "PlayerId";
-        public static String pcTargetX = "TargetX";
-        public static String pcTargetY = "TargetY";
-        //GameInfo
-        public static String giMapInfo = "MapInfo";
-        public static String giRound = "Round";
-        //PfRule
-        public static String pfrMaxRound = "MaxRound";
-        public static String pfrMapHeight = "MapHeight";
-        public static String pfrMapWidth = "MapWidth";
-        public static String pfrPlayerNum = "PlayerNum";
-        public static String pfrEmptyGridTime = "EmptyGridTime";
-        public static String pfrPlayerGridTime = "PlayerGridTime";
+        private string DumpJson() {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        private string GetMsgType(String _s){
+            GameInfo tmp_s = JsonConvert.DeserializeObject<GameInfo>(_s);
+            return tmp_s.MsgType;
+        }
     }
 }
 
