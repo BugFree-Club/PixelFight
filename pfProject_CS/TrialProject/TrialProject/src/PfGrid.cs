@@ -1,28 +1,30 @@
-﻿// Author : Zhiquan Wang
-// Date : 2018/07/23
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace TrialProject.src {
-    class PFGrid {
-        private String type;
-        private String attribution;
+    public class GridTag{
+        public static string typeLand = "Land";
+        public static string attributionEmpty = "Empty";
+    }
+    public class PixelGrid {
+        private string type;
+        private string attribution;
         private int value;
-
-        public PFGrid() {
-
+        public PixelGrid() { }
+        public PixelGrid(String ptype = "Land", String attribution = "empty", int value = 1){
+            Type = ptype;
+            Attribution = attribution;
+            Value = value;
         }
-
-        public PFGrid(String _t, String _a, int _v) {
-            Type = _t;
-            Attribution = _a;
-            Value = _v;
-        }
-
         public string Type { get => type; set => type = value; }
         public string Attribution { get => attribution; set => attribution = value; }
         public int Value { get => value; set => this.value = value; }
+
+        private string Dict()
+        {
+            return "abc";
+        }
     }
 }
