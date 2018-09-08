@@ -8,23 +8,30 @@ namespace TrialProject.src{
         private string usrName;
         private string loginId;
         private string pfMap;
-        public PixelFightClient(String usrName, String ip, String port) {
+        private string message;
+        public PixelFightClient(String usrName, String ip = "127.0.0.1", int port = 7707) {
             ServerIp = ip;
             ServerPort = port;
             UsrName = usrName;
             LoginId = null;
             PfMap = null;
+            IsBusy = false;
+            Message = null;
+            CurRound = 0;
         }
         public PixelFightClient() { }
         public string ServerIp { get => serverIp; set => serverIp = value; }
-        public string ServerPort { get => serverPort; set => serverPort = value; }
         public string UsrName { get => usrName; set => usrName = value; }
         public string LoginId { get => loginId; set => loginId = value; }
         public string PfMap { get => pfMap; set => pfMap = value; }
+        public string Message { get => message; set => message = value; }
+        public bool IsBusy;
+        public int CurRound;
+        public int ServerPort;
         public string ClientSocket;
         public void Request(String msg) { }
-        public void LoginReuest() { }
-            
-        
+        private string loginRequest() {
+            return "abc";
+        }       
     }
 }
