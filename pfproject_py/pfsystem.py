@@ -57,6 +57,7 @@ class PixelFightSystem(object):
             tmp_rep = LoginReply(id=tmp_id).dump_json()
             _s.sendall(tmp_rep.encode('utf-8'))
             print(u'Server Reply:' + tmp_rep + ':End')
+            # 当玩家全部接入,开始游戏
             if len(self.__game.player_info_list) == self.__game.game_rule.player_num:
                 self.__game.is_ready = True
         elif tmp_type == MessageType.attack_request:

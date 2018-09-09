@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import random
 
 
-
 class VisionManager(object):
 
     def __init__(self, *, player_info_list, game_rule):

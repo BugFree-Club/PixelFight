@@ -19,4 +19,4 @@ def test(i):
 
 
 if __name__ == '__main__':
-   tmp_client = PixelFightClient().launch_socket()
+   tmp_client = PixelFightClient(ip='192.168.43.9').launch_socket()

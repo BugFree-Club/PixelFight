@@ -13,7 +13,7 @@ class MessageType(object):
 
 
 class JsonAttribute(object):
-    msg_type = 'msg_type'
+    msg_type = u'msg_type'
     # LoginRequest
     lr_usr_name = u'usr_name'
 
